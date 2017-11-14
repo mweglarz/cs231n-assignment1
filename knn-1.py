@@ -51,7 +51,6 @@ print 'Test labels shape: ', y_test.shape
 
 
 # In[ ]:
-'''
 
 # Visualize some examples from the dataset.
 # We show a few examples of training images from each class.
@@ -59,6 +58,7 @@ classes = ['plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 num_classes = len(classes)
 samples_per_class = 7
 for y, cls in enumerate(classes):
+    # idxs - indexes of all images for particular class
     idxs = np.flatnonzero(y_train == y)
     idxs = np.random.choice(idxs, samples_per_class, replace=False)
     for i, idx in enumerate(idxs):
@@ -70,9 +70,8 @@ for y, cls in enumerate(classes):
             plt.title(cls)
 plt.show()
 
-
 # In[ ]:
-
+'''
 
 # Subsample the data for more efficient code execution in this exercise
 num_training = 5000
