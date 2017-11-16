@@ -35,9 +35,7 @@ plt.rcParams['image.cmap'] = 'gray'
 #get_ipython().magic('load_ext autoreload')
 #get_ipython().magic('autoreload 2')
 
-
 # In[ ]:
-
 
 # Load the raw CIFAR-10 data.
 cifar10_dir = 'cs231n/datasets/cifar-10-batches-py'
@@ -48,7 +46,6 @@ print 'Training data shape: ', X_train.shape
 print 'Training labels shape: ', y_train.shape
 print 'Test data shape: ', X_test.shape
 print 'Test labels shape: ', y_test.shape
-
 
 # In[ ]:
 
@@ -68,6 +65,7 @@ for y, cls in enumerate(classes):
         plt.axis('off')
         if i == 0:
             plt.title(cls)
+
 plt.show()
 
 # In[ ]:

@@ -59,7 +59,11 @@ class KNearestNeighbor(object):
     - dists: A numpy array of shape (num_test, num_train) where dists[i, j]
       is the Euclidean distance between the ith test point and the jth training
       point.
+
     """
+
+    print "input X shape = {}".format(X.shape)
+
     num_test = X.shape[0]
     num_train = self.X_train.shape[0]
     dists = np.zeros((num_test, num_train))
@@ -71,7 +75,11 @@ class KNearestNeighbor(object):
         # training point, and store the result in dists[i, j]. You should   #
         # not use a loop over dimension.                                    #
         #####################################################################
-        pass
+        test_image = X[i]
+        train_image = self.X_train[j]
+        distance = (test_image - train_image) ** 2
+        distance = np.sqrt(distance)
+        dists[i, j] = np.sum(distance)
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
