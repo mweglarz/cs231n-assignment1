@@ -137,7 +137,7 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+    
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
