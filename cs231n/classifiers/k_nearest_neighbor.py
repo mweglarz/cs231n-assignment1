@@ -78,8 +78,8 @@ class KNearestNeighbor(object):
         test_image = X[i]
         train_image = self.X_train[j]
         distance = (test_image - train_image) ** 2
-        distance = np.sqrt(distance)
-        dists[i, j] = np.sum(distance)
+        distance_summed = np.sum(distance)
+        dists[i, j] = distance_summed ** 0.5
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -94,6 +94,7 @@ class KNearestNeighbor(object):
     """
     num_test = X.shape[0]
     num_train = self.X_train.shape[0]
+    print "x_train = {}".format(self.X_train.shape)
     dists = np.zeros((num_test, num_train))
     for i in xrange(num_test):
       #######################################################################
@@ -101,7 +102,14 @@ class KNearestNeighbor(object):
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      pass
+      test_image = X[i]
+      distances = self.X_train - test_image
+      distances = distances ** 2
+      distance_summed = np.sum(distances, axis=1)
+      distances = np.sqrt(distance_summed)
+      dists[i, :] = distances
+
+      # print "distances shape = {}".format(distance.shape)
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
