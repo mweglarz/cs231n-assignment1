@@ -122,6 +122,7 @@ class KNearestNeighbor(object):
 
     Input / Output: Same as compute_distances_two_loops
     """
+    
     num_test = X.shape[0]
     num_train = self.X_train.shape[0]
     dists = np.zeros((num_test, num_train)) 
@@ -137,10 +138,13 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
+    print "no loops test"
+    distances = (X ** 2).sum(axis=1, keepdims=True) \
+            + (self.X_train ** 2).sum(axis=1) \
+            - 2 * X.dot(self.X_train.T)
     
-    #########################################################################
-    #                         END OF YOUR CODE                              #
-    #########################################################################
+    dists = np.sqrt(distances)
+
     return dists
 
   def predict_labels(self, dists, k=1):
