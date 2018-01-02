@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.ma as ma
 from random import shuffle
 
 def svm_loss_naive(W, X, y, reg):
@@ -60,37 +61,53 @@ def svm_loss_naive(W, X, y, reg):
 
 
 def svm_loss_vectorized(W, X, y, reg):
-  """
-  Structured SVM loss function, vectorized implementation.
+    """
+    Structured SVM loss function, vectorized implementation.
 
-  Inputs and outputs are the same as svm_loss_naive.
-  """
-  loss = 0.0
-  dW = np.zeros(W.shape) # initialize the gradient as zero
+    Inputs and outputs are the same as svm_loss_naive.
+    """
+    loss = 0.0
+    dW = np.zeros(W.shape) # initialize the gradient as zero
+    classes = np.arange(10, dtype=int)
 
-  #############################################################################
-  # TODO:                                                                     #
-  # Implement a vectorized version of the structured SVM loss, storing the    #
-  # result in loss.                                                           #
-  #############################################################################
-  pass
-  #############################################################################
-  #                             END OF YOUR CODE                              #
-  #############################################################################
+    #############################################################################
+    # TODO:                                                                     #
+    # Implement a vectorized version of the structured SVM loss, storing the    #
+    # result in loss.                                                           #
+    #############################################################################
+    print "W shape = {}".format(W.shape)
+    print "X shape = {}".format(X.shape)
+    print "y shape = {}".format(y.shape)
+    print "classes shape = {}".format(classes.shape)
+    # W.shape[1] numbers of images
+    scores = X.dot(W)
+    print "scores shape = {}".format(scores.shape)
+    mask_1 = np.zeros(scores.shape, dtype=int)
+    mask_1[:, None] = classes
+    y_mask = np.repeat(y, scores.shape[1]).reshape(scores.shape)
+    mask = mask_1 == y_mask
+
+    scores = ma.array(scores, mask = mask)
+    # todo: create margin array and sums
+    
+    print "mask shape = {}".format(mask.shape)
+    #############################################################################
+    #                             END OF YOUR CODE                              #
+    #############################################################################
 
 
-  #############################################################################
-  # TODO:                                                                     #
-  # Implement a vectorized version of the gradient for the structured SVM     #
-  # loss, storing the result in dW.                                           #
-  #                                                                           #
-  # Hint: Instead of computing the gradient from scratch, it may be easier    #
-  # to reuse some of the intermediate values that you used to compute the     #
-  # loss.                                                                     #
-  #############################################################################
-  pass
-  #############################################################################
-  #                             END OF YOUR CODE                              #
-  #############################################################################
+    #############################################################################
+    # TODO:                                                                     #
+    # Implement a vectorized version of the gradient for the structured SVM     #
+    # loss, storing the result in dW.                                           #
+    #                                                                           #
+    # Hint: Instead of computing the gradient from scratch, it may be easier    #
+    # to reuse some of the intermediate values that you used to compute the     #
+    # loss.                                                                     #
+    #############################################################################
+    pass
+    #############################################################################
+    #                             END OF YOUR CODE                              #
+    #############################################################################
 
-  return loss, dW
+    return loss, dW
