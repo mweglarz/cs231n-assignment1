@@ -38,6 +38,7 @@ def svm_loss_naive(W, X, y, reg):
         loss += margin
         dW[:, y[i]] -= X[i]
 
+  print "test loss = {}".format(test_loss)
 
   # Right now the loss is a sum over all training examples, but we want it
   # to be an average instead so we divide by num_train.
@@ -105,10 +106,19 @@ def svm_loss_vectorized(W, X, y, reg):
     print "margin shape = {}".format(margin.shape)
     print "margin = {}".format(margin[:1])
 
-    margin_mask = margin > -1
-    print "margin mask shape = {}".format(margin_mask.shape)
-    print "margin mask = {}".format(margin_mask[:1])
-    loss += np.sum(ma.array(margin, mask=margin_mask))
+    # margin_mask = margin > 0
+    margin = ma.array(margin, mask=margin < 0, fill_value = 0.0)
+    # print "margin after mask = {}".format(margin[:10])
+    # print "margin mask shape = {}".format(margin_mask.shape)
+    # print "margin mask = {}".format(margin_mask[:1])
+
+    # temp_loss = np.sum(ma.array(margin, mask=margin_mask)), axis=1
+    # print "test loss vectorized = {}".format(temp_loss[:1])
+    loss = np.sum(margin)
+    loss /= X.shape[0]
+    loss += 0.5 * reg * np.sum(W * W)
+    print "loss = {}".format(loss)
+
     #############################################################################
     #                             END OF YOUR CODE                              #
     #############################################################################
