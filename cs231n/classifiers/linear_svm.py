@@ -38,7 +38,6 @@ def svm_loss_naive(W, X, y, reg):
         loss += margin
         dW[:, y[i]] -= X[i]
 
-  print "test loss = {}".format(test_loss)
 
   # Right now the loss is a sum over all training examples, but we want it
   # to be an average instead so we divide by num_train.
