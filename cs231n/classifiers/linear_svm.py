@@ -81,29 +81,34 @@ def svm_loss_vectorized(W, X, y, reg):
     print "classes shape = {}".format(classes.shape)
     # W.shape[1] numbers of images
     scores = X.dot(W)
-    print "scores shape = {}".format(scores.shape)
+    # print "scores shape = {}".format(scores.shape)
     mask_1 = np.zeros(scores.shape, dtype=int)
     mask_1[:, None] = classes
     y_mask = np.repeat(y, scores.shape[1]).reshape(scores.shape)
     mask = mask_1 == y_mask
 
     correct_class_score = ma.array(scores, mask = ~mask)
-    print "correct class score 0".format(correct_class_score)
-    correct_class_score = np.sum(correct_class_score, axis=0)
+    correct_class_score = np.sum(correct_class_score, axis=1)
     scores = ma.array(scores, mask = mask)
     # todo: create margin array and sums
     # todo: correct class score matrix
+    print "scores shape = {}".format(scores.shape)
     print "correct class score shape = {}".format(correct_class_score.shape)
     print "y shape = {}".format(y.shape)
-    print "scores = {}".format(scores[:1])
-    # print "correct class score = {}".format(correct_class_score[:1])
-    print "y = {}".format(y[:1])
-    print "mask shape = {}".format(mask.shape)
-    print "mask = {}".format(mask[:1])
+    print "scores 1 = {}".format(scores[:1])
+    print "correct class scores 1 = {}".format(correct_class_score[:1])
+    # print "y = {}".format(y[:1])
+    # print "mask shape = {}".format(mask.shape)
+    # print "mask = {}".format(mask[:1])
 
-    # margin = scores - correct_class_score + 1
-    # print "margin shape = {}".format(margin.shape)
-    # print "margin = {}".format(margin[:1])
+    margin = scores - correct_class_score[:, None] + 1
+    print "margin shape = {}".format(margin.shape)
+    print "margin = {}".format(margin[:1])
+
+    margin_mask = margin > -1
+    print "margin mask shape = {}".format(margin_mask.shape)
+    print "margin mask = {}".format(margin_mask[:1])
+    loss += np.sum(ma.array(margin, mask=margin_mask))
     #############################################################################
     #                             END OF YOUR CODE                              #
     #############################################################################
