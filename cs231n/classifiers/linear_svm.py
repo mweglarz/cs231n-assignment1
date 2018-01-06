@@ -87,10 +87,23 @@ def svm_loss_vectorized(W, X, y, reg):
     y_mask = np.repeat(y, scores.shape[1]).reshape(scores.shape)
     mask = mask_1 == y_mask
 
+    correct_class_score = ma.array(scores, mask = ~mask)
+    print "correct class score 0".format(correct_class_score)
+    correct_class_score = np.sum(correct_class_score, axis=0)
     scores = ma.array(scores, mask = mask)
     # todo: create margin array and sums
-    
+    # todo: correct class score matrix
+    print "correct class score shape = {}".format(correct_class_score.shape)
+    print "y shape = {}".format(y.shape)
+    print "scores = {}".format(scores[:1])
+    # print "correct class score = {}".format(correct_class_score[:1])
+    print "y = {}".format(y[:1])
     print "mask shape = {}".format(mask.shape)
+    print "mask = {}".format(mask[:1])
+
+    # margin = scores - correct_class_score + 1
+    # print "margin shape = {}".format(margin.shape)
+    # print "margin = {}".format(margin[:1])
     #############################################################################
     #                             END OF YOUR CODE                              #
     #############################################################################
@@ -111,3 +124,4 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
 
     return loss, dW
+
