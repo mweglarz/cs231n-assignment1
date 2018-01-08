@@ -79,9 +79,7 @@ def svm_loss_vectorized(W, X, y, reg):
     print "X shape = {}".format(X.shape)
     print "y shape = {}".format(y.shape)
     print "classes shape = {}".format(classes.shape)
-    # W.shape[1] numbers of images
     scores = X.dot(W)
-    # print "scores shape = {}".format(scores.shape)
     mask_1 = np.zeros(scores.shape, dtype=int)
     mask_1[:, None] = classes
     y_mask = np.repeat(y, scores.shape[1]).reshape(scores.shape)
@@ -90,33 +88,34 @@ def svm_loss_vectorized(W, X, y, reg):
     correct_class_score = ma.array(scores, mask = ~mask)
     correct_class_score = np.sum(correct_class_score, axis=1)
     scores = ma.array(scores, mask = mask)
-    # todo: create margin array and sums
-    # todo: correct class score matrix
     print "scores shape = {}".format(scores.shape)
     print "correct class score shape = {}".format(correct_class_score.shape)
     print "y shape = {}".format(y.shape)
     print "scores 1 = {}".format(scores[:1])
     print "correct class scores 1 = {}".format(correct_class_score[:1])
-    # print "y = {}".format(y[:1])
-    # print "mask shape = {}".format(mask.shape)
-    # print "mask = {}".format(mask[:1])
 
     margin = scores - correct_class_score[:, None] + 1
     print "margin shape = {}".format(margin.shape)
     print "margin = {}".format(margin[:1])
 
-    # margin_mask = margin > 0
     margin = ma.array(margin, mask=margin < 0, fill_value = 0.0)
-    # print "margin after mask = {}".format(margin[:10])
-    # print "margin mask shape = {}".format(margin_mask.shape)
-    # print "margin mask = {}".format(margin_mask[:1])
 
-    # temp_loss = np.sum(ma.array(margin, mask=margin_mask)), axis=1
-    # print "test loss vectorized = {}".format(temp_loss[:1])
     loss = np.sum(margin)
     loss /= X.shape[0]
     loss += 0.5 * reg * np.sum(W * W)
     print "loss = {}".format(loss)
+
+    print "dW shape = {}".format(dW.shape)
+    # new_dW = np.reshape(dW, (dW.shape[0], dW.shape[1], scores.shape[0]))
+    num_im = scores.shape[0]
+    new_dW = np.broadcast(dW[:,:,None], np.zeros(num_im))
+    # new_dW -= X
+    # dW[:, :, None] = np.zeros(scores.shape[0])
+    print 'new dw is none = {}'.format(new_dW == None)
+    print "new_dW shape = {}".format(new_dW.shape)
+    # print 'dw masked 10 = {}A'.format(dW_masked[:, 10])
+    # dW_masked -= X
+    
 
     #############################################################################
     #                             END OF YOUR CODE                              #
